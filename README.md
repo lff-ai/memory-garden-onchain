@@ -17,6 +17,8 @@
 
 ## ✨ 项目愿景
 
+[合约地址：https://monad-testnet.socialscan.io/address/0x6b251f5ad94b7cc9f75e059bccb79c9d5c85ffdb](https://monad-testnet.socialscan.io/address/0x6b251f5ad94b7cc9f75e059bccb79c9d5c85ffdb)
+
 那年夏天，操场的晚风吹皱一池星光。
 傍晚的跑道上，我们把影子拉得很长。
 教室窗外的梧桐叶，藏着秘密的眼神。

@@ -151,21 +151,51 @@ function App() {
         </p>
       </header>
 
-      {/* 许愿树区域 */}
+      {/* 莲花区域 */}
       <div className="tree-container">
         <div className="tree-wrapper">
-          {/* 树冠 */}
-          <div className="tree-crown">
-            <div className="tree-crown-layer layer-1"></div>
-            <div className="tree-crown-layer layer-2"></div>
-            <div className="tree-crown-layer layer-3"></div>
+          {/* 莲花 */}
+          <div className="lotus">
+            {/* 外层花瓣 */}
+            <div className="lotus-petal outer-petal petal-1"></div>
+            <div className="lotus-petal outer-petal petal-2"></div>
+            <div className="lotus-petal outer-petal petal-3"></div>
+            <div className="lotus-petal outer-petal petal-4"></div>
+            <div className="lotus-petal outer-petal petal-5"></div>
+            <div className="lotus-petal outer-petal petal-6"></div>
+
+            {/* 中层花瓣 */}
+            <div className="lotus-petal middle-petal petal-1"></div>
+            <div className="lotus-petal middle-petal petal-2"></div>
+            <div className="lotus-petal middle-petal petal-3"></div>
+            <div className="lotus-petal middle-petal petal-4"></div>
+            <div className="lotus-petal middle-petal petal-5"></div>
+            <div className="lotus-petal middle-petal petal-6"></div>
+
+            {/* 内层花瓣 */}
+            <div className="lotus-petal inner-petal petal-1"></div>
+            <div className="lotus-petal inner-petal petal-2"></div>
+            <div className="lotus-petal inner-petal petal-3"></div>
+            <div className="lotus-petal inner-petal petal-4"></div>
+            <div className="lotus-petal inner-petal petal-5"></div>
+
+            {/* 花蕊中心 */}
+            <div className="lotus-center">
+              <div className="lotus-core"></div>
+            </div>
+
+            {/* 莲花发光效果 */}
+            <div className="lotus-glow"></div>
           </div>
 
-          {/* 树干 */}
-          <div className="tree-trunk"></div>
+          {/* 底座平台 */}
+          <div className="platform">
+            <div className="platform-stone"></div>
+            <div className="platform-wood"></div>
+          </div>
 
-          {/* 许愿树文字 */}
-          <div className="tree-text">青春之树</div>
+          {/* 莲花文字 */}
+          <div className="tree-text">青春之莲</div>
         </div>
 
         {/* 花朵堆积区 */}

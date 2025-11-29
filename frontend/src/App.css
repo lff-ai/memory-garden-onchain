@@ -121,99 +121,318 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* 树冠 - 三层叠加 */
-.tree-crown {
+/* 莲花容器 */
+.lotus {
   position: relative;
-  width: 200px;
-  height: 180px;
+  width: 280px;
+  height: 280px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 2;
+  animation: lotusFloat 6s ease-in-out infinite;
 }
 
-.tree-crown-layer {
+@keyframes lotusFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* 莲花发光效果 */
+.lotus-glow {
   position: absolute;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 100, 0.4) 0%,
+    rgba(255, 150, 80, 0.2) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  animation: glowPulse 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* 莲花花瓣基础样式 */
+.lotus-petal {
+  position: absolute;
+  background: linear-gradient(
+    135deg,
+    #FFE5B4 0%,
+    #FFD700 20%,
+    #FFA500 50%,
+    #FF8C00 80%,
+    #D2691E 100%
+  );
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow:
+    0 4px 15px rgba(255, 140, 0, 0.4),
+    inset -5px -5px 15px rgba(210, 105, 30, 0.5),
+    inset 5px 5px 15px rgba(255, 229, 180, 0.6);
+}
+
+/* 外层花瓣 */
+.outer-petal {
+  width: 90px;
+  height: 120px;
+  transform-origin: center 90%;
+}
+
+.outer-petal.petal-1 {
+  transform: rotate(0deg) translateY(-100px);
+}
+
+.outer-petal.petal-2 {
+  transform: rotate(60deg) translateY(-100px);
+}
+
+.outer-petal.petal-3 {
+  transform: rotate(120deg) translateY(-100px);
+}
+
+.outer-petal.petal-4 {
+  transform: rotate(180deg) translateY(-100px);
+}
+
+.outer-petal.petal-5 {
+  transform: rotate(240deg) translateY(-100px);
+}
+
+.outer-petal.petal-6 {
+  transform: rotate(300deg) translateY(-100px);
+}
+
+/* 中层花瓣 */
+.middle-petal {
+  width: 75px;
+  height: 100px;
+  background: linear-gradient(
+    135deg,
+    #FFF8DC 0%,
+    #FFE5B4 15%,
+    #FFD700 40%,
+    #FF8C00 70%,
+    #D2691E 100%
+  );
+  transform-origin: center 85%;
+  opacity: 0.95;
+}
+
+.middle-petal.petal-1 {
+  transform: rotate(30deg) translateY(-70px);
+}
+
+.middle-petal.petal-2 {
+  transform: rotate(90deg) translateY(-70px);
+}
+
+.middle-petal.petal-3 {
+  transform: rotate(150deg) translateY(-70px);
+}
+
+.middle-petal.petal-4 {
+  transform: rotate(210deg) translateY(-70px);
+}
+
+.middle-petal.petal-5 {
+  transform: rotate(270deg) translateY(-70px);
+}
+
+.middle-petal.petal-6 {
+  transform: rotate(330deg) translateY(-70px);
+}
+
+/* 内层花瓣 */
+.inner-petal {
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(
+    135deg,
+    #FFFACD 0%,
+    #FFF8DC 20%,
+    #FFD700 50%,
+    #FFA500 80%,
+    #FF8C00 100%
+  );
+  transform-origin: center 80%;
   opacity: 0.9;
 }
 
-.layer-1 {
-  width: 200px;
-  height: 120px;
-  background: linear-gradient(135deg, #90EE90 0%, #32CD32 50%, #228B22 100%);
-  top: 0;
-  box-shadow:
-    0 8px 30px rgba(50, 205, 50, 0.4),
-    inset -10px -10px 20px rgba(34, 139, 34, 0.3),
-    inset 10px 10px 20px rgba(144, 238, 144, 0.5);
+.inner-petal.petal-1 {
+  transform: rotate(0deg) translateY(-45px);
 }
 
-.layer-2 {
-  width: 180px;
-  height: 110px;
-  background: linear-gradient(135deg, #98FB98 0%, #3CB371 50%, #2E8B57 100%);
-  top: 30px;
-  box-shadow:
-    0 6px 25px rgba(60, 179, 113, 0.4),
-    inset -8px -8px 15px rgba(46, 139, 87, 0.3),
-    inset 8px 8px 15px rgba(152, 251, 152, 0.5);
+.inner-petal.petal-2 {
+  transform: rotate(72deg) translateY(-45px);
 }
 
-.layer-3 {
-  width: 160px;
-  height: 100px;
-  background: linear-gradient(135deg, #ADFF2F 0%, #7CFC00 50%, #32CD32 100%);
-  top: 60px;
-  box-shadow:
-    0 4px 20px rgba(124, 252, 0, 0.4),
-    inset -6px -6px 12px rgba(50, 205, 50, 0.3),
-    inset 6px 6px 12px rgba(173, 255, 47, 0.5);
+.inner-petal.petal-3 {
+  transform: rotate(144deg) translateY(-45px);
 }
 
-/* 树干 */
-.tree-trunk {
-  position: relative;
-  width: 40px;
-  height: 100px;
-  background: linear-gradient(90deg,
-    #8B4513 0%,
-    #A0522D 30%,
-    #CD853F 50%,
-    #A0522D 70%,
-    #8B4513 100%
+.inner-petal.petal-4 {
+  transform: rotate(216deg) translateY(-45px);
+}
+
+.inner-petal.petal-5 {
+  transform: rotate(288deg) translateY(-45px);
+}
+
+/* 花蕊中心 */
+.lotus-center {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(
+    circle,
+    #FFF8DC 0%,
+    #FFD700 30%,
+    #FFA500 60%,
+    #FF8C00 100%
   );
-  border-radius: 8px;
-  margin-top: -20px;
-  z-index: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow:
-    -4px 0 10px rgba(0, 0, 0, 0.2),
-    4px 0 10px rgba(205, 133, 63, 0.3),
-    inset -3px 0 8px rgba(139, 69, 19, 0.5),
-    inset 3px 0 8px rgba(210, 180, 140, 0.3);
+    0 5px 20px rgba(255, 140, 0, 0.6),
+    inset 0 -3px 10px rgba(255, 140, 0, 0.5),
+    inset 0 3px 10px rgba(255, 248, 220, 0.8);
+  z-index: 10;
 }
 
-/* 树干上的纹理 */
-.tree-trunk::before {
+.lotus-core {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(
+    circle,
+    #FFFACD 0%,
+    #FFD700 50%,
+    #FF8C00 100%
+  );
+  border-radius: 50%;
+  box-shadow:
+    0 0 15px rgba(255, 215, 0, 0.8),
+    inset 0 2px 5px rgba(255, 250, 205, 0.9);
+  animation: coreGlow 3s ease-in-out infinite;
+}
+
+@keyframes coreGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 15px rgba(255, 215, 0, 0.8),
+      inset 0 2px 5px rgba(255, 250, 205, 0.9);
+  }
+  50% {
+    box-shadow:
+      0 0 25px rgba(255, 215, 0, 1),
+      0 0 40px rgba(255, 165, 0, 0.6),
+      inset 0 2px 5px rgba(255, 250, 205, 1);
+  }
+}
+
+/* 底座平台 */
+.platform {
+  position: relative;
+  width: 240px;
+  height: 60px;
+  margin-top: -30px;
+  display: flex;
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.platform-stone {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #2F4F4F 0%,
+    #3a5a5a 20%,
+    #1a2f2f 50%,
+    #2F4F4F 80%,
+    #1a2f2f 100%
+  );
+  position: relative;
+  box-shadow:
+    inset -5px 0 15px rgba(0, 0, 0, 0.5),
+    inset 3px 3px 8px rgba(90, 110, 110, 0.3);
+}
+
+.platform-stone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.02) 10px,
+    rgba(255, 255, 255, 0.02) 20px
+  );
+}
+
+.platform-wood {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #8B7355 0%,
+    #A0826D 20%,
+    #D2B48C 40%,
+    #C19A6B 60%,
+    #8B7355 80%,
+    #6F5F4D 100%
+  );
+  position: relative;
+  box-shadow:
+    inset 5px 0 15px rgba(101, 67, 33, 0.4),
+    inset -3px 3px 8px rgba(210, 180, 140, 0.3);
+}
+
+.platform-wood::before {
   content: '';
   position: absolute;
   top: 20%;
-  left: 5px;
-  right: 5px;
-  height: 3px;
-  background: rgba(139, 69, 19, 0.6);
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(101, 67, 33, 0.5);
   border-radius: 50%;
 }
 
-.tree-trunk::after {
+.platform-wood::after {
   content: '';
   position: absolute;
   top: 60%;
-  left: 5px;
-  right: 5px;
-  height: 3px;
-  background: rgba(139, 69, 19, 0.6);
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: rgba(101, 67, 33, 0.4);
   border-radius: 50%;
 }
 
@@ -564,32 +783,108 @@ footer {
     padding: 15px 0 0;
   }
 
-  .tree-crown {
-    width: 140px;
-    height: 130px;
+  .lotus {
+    width: 200px;
+    height: 200px;
   }
 
-  .layer-1 {
-    width: 140px;
+  .outer-petal {
+    width: 65px;
     height: 85px;
   }
 
-  .layer-2 {
-    width: 120px;
-    height: 75px;
-    top: 25px;
+  .outer-petal.petal-1 {
+    transform: rotate(0deg) translateY(-70px);
   }
 
-  .layer-3 {
-    width: 100px;
-    height: 65px;
-    top: 45px;
+  .outer-petal.petal-2 {
+    transform: rotate(60deg) translateY(-70px);
   }
 
-  .tree-trunk {
-    width: 30px;
+  .outer-petal.petal-3 {
+    transform: rotate(120deg) translateY(-70px);
+  }
+
+  .outer-petal.petal-4 {
+    transform: rotate(180deg) translateY(-70px);
+  }
+
+  .outer-petal.petal-5 {
+    transform: rotate(240deg) translateY(-70px);
+  }
+
+  .outer-petal.petal-6 {
+    transform: rotate(300deg) translateY(-70px);
+  }
+
+  .middle-petal {
+    width: 55px;
     height: 70px;
-    margin-top: -15px;
+  }
+
+  .middle-petal.petal-1 {
+    transform: rotate(30deg) translateY(-50px);
+  }
+
+  .middle-petal.petal-2 {
+    transform: rotate(90deg) translateY(-50px);
+  }
+
+  .middle-petal.petal-3 {
+    transform: rotate(150deg) translateY(-50px);
+  }
+
+  .middle-petal.petal-4 {
+    transform: rotate(210deg) translateY(-50px);
+  }
+
+  .middle-petal.petal-5 {
+    transform: rotate(270deg) translateY(-50px);
+  }
+
+  .middle-petal.petal-6 {
+    transform: rotate(330deg) translateY(-50px);
+  }
+
+  .inner-petal {
+    width: 45px;
+    height: 60px;
+  }
+
+  .inner-petal.petal-1 {
+    transform: rotate(0deg) translateY(-32px);
+  }
+
+  .inner-petal.petal-2 {
+    transform: rotate(72deg) translateY(-32px);
+  }
+
+  .inner-petal.petal-3 {
+    transform: rotate(144deg) translateY(-32px);
+  }
+
+  .inner-petal.petal-4 {
+    transform: rotate(216deg) translateY(-32px);
+  }
+
+  .inner-petal.petal-5 {
+    transform: rotate(288deg) translateY(-32px);
+  }
+
+  .lotus-center {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lotus-core {
+    width: 30px;
+    height: 30px;
+  }
+
+  .platform {
+    width: 180px;
+    height: 50px;
+    margin-top: -25px;
   }
 
   .tree-text {

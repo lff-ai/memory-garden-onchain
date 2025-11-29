@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import config from './config'
 
 function App() {
-  const [monAmount, setMonAmount] = useState(0.001)
+  const [monAmount, setMonAmount] = useState(config.mon.defaultAmount)
   const [flowerCount, setFlowerCount] = useState(10)
   const [staticFlowers, setStaticFlowers] = useState([])
   const [floatingFlowers, setFloatingFlowers] = useState([])
@@ -27,7 +28,7 @@ function App() {
 
   // 计算花朵数量
   const calculateFlowers = (amount) => {
-    return Math.floor(amount * 10000)
+    return Math.floor(amount * config.flower.flowerPerMon)
   }
 
   // 监听金额变化
@@ -68,7 +69,7 @@ function App() {
     // 恢复按钮
     setTimeout(() => {
       setIsOffering(false)
-      setMonAmount(0.001)
+      setMonAmount(config.mon.defaultAmount)
     }, 6000)
   }
 
@@ -191,15 +192,24 @@ function App() {
       <div className="control-panel">
         <div className="control-content">
           <div className="input-group">
-            <label htmlFor="monAmount">投入 MON 币数量</label>
+            <label htmlFor="monAmount">投入 MON 币数量（最多 {config.mon.maxAmount} MON）</label>
             <input
               type="number"
               id="monAmount"
-              placeholder="请输入金额（默认 0.001）"
-              min="0"
-              step="0.001"
+              placeholder={`请输入金额（默认 ${config.mon.defaultAmount}）`}
+              min={config.mon.minAmount}
+              max={config.mon.maxAmount}
+              step={config.mon.step}
               value={monAmount}
-              onChange={(e) => setMonAmount(parseFloat(e.target.value) || 0)}
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0
+                // 限制最大值
+                if (value > config.mon.maxAmount) {
+                  setMonAmount(config.mon.maxAmount)
+                } else {
+                  setMonAmount(value)
+                }
+              }}
             />
           </div>
 

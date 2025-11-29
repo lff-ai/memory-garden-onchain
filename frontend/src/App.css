@@ -438,19 +438,88 @@ h1 {
 /* 许愿树文字 */
 .tree-text {
   position: absolute;
-  top: 75%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 24px;
-  color: #FFD700;
-  font-weight: bold;
-  letter-spacing: 8px;
+  font-size: 38px;
+  color: #FF1493;
+  font-weight: 900;
+  letter-spacing: 12px;
   text-shadow:
-    2px 2px 4px rgba(0, 0, 0, 0.3),
-    0 0 15px rgba(255, 215, 0, 0.6),
-    0 0 30px rgba(255, 215, 0, 0.4);
+    -2px -2px 0 #FFD700,
+    2px -2px 0 #FFD700,
+    -2px 2px 0 #FFD700,
+    2px 2px 0 #FFD700,
+    0 0 15px rgba(255, 20, 147, 0.8),
+    0 0 30px rgba(255, 215, 0, 0.6),
+    0 0 45px rgba(255, 105, 180, 0.5),
+    3px 3px 8px rgba(0, 0, 0, 0.4);
   z-index: 3;
   pointer-events: none;
+  animation: textRotateGlow 4s ease-in-out infinite;
+}
+
+@keyframes textRotateGlow {
+  0% {
+    transform: translate(-50%, -50%) translate(0px, -3px);
+    text-shadow:
+      -2px -2px 0 #FFD700,
+      2px -2px 0 #FFD700,
+      -2px 2px 0 #FFD700,
+      2px 2px 0 #FFD700,
+      0 0 15px rgba(255, 20, 147, 0.8),
+      0 0 30px rgba(255, 215, 0, 0.6),
+      0 0 45px rgba(255, 105, 180, 0.5),
+      3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  25% {
+    transform: translate(-50%, -50%) translate(3px, 0px);
+    text-shadow:
+      -2px -2px 0 #FFD700,
+      2px -2px 0 #FFD700,
+      -2px 2px 0 #FFD700,
+      2px 2px 0 #FFD700,
+      0 0 20px rgba(255, 20, 147, 0.9),
+      0 0 40px rgba(255, 215, 0, 0.8),
+      0 0 60px rgba(255, 105, 180, 0.7),
+      3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(0px, 3px);
+    text-shadow:
+      -2px -2px 0 #FFD700,
+      2px -2px 0 #FFD700,
+      -2px 2px 0 #FFD700,
+      2px 2px 0 #FFD700,
+      0 0 25px rgba(255, 20, 147, 1),
+      0 0 45px rgba(255, 215, 0, 0.9),
+      0 0 65px rgba(255, 105, 180, 0.8),
+      3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  75% {
+    transform: translate(-50%, -50%) translate(-3px, 0px);
+    text-shadow:
+      -2px -2px 0 #FFD700,
+      2px -2px 0 #FFD700,
+      -2px 2px 0 #FFD700,
+      2px 2px 0 #FFD700,
+      0 0 20px rgba(255, 20, 147, 0.9),
+      0 0 40px rgba(255, 215, 0, 0.8),
+      0 0 60px rgba(255, 105, 180, 0.7),
+      3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    transform: translate(-50%, -50%) translate(0px, -3px);
+    text-shadow:
+      -2px -2px 0 #FFD700,
+      2px -2px 0 #FFD700,
+      -2px 2px 0 #FFD700,
+      2px 2px 0 #FFD700,
+      0 0 15px rgba(255, 20, 147, 0.8),
+      0 0 30px rgba(255, 215, 0, 0.6),
+      0 0 45px rgba(255, 105, 180, 0.5),
+      3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
 }
 
 /* 花朵堆积区域 */
@@ -887,9 +956,9 @@ footer {
   }
 
   .tree-text {
-    font-size: 16px;
-    letter-spacing: 4px;
-    top: 72%;
+    font-size: 24px;
+    letter-spacing: 6px;
+    top: 52%;
   }
 
   .flowers-area {

@@ -45,11 +45,11 @@ export const useContract = (provider, account) => {
   }, [provider, account])
 
   /**
-   * 留下记忆（购买花束）
-   * @param {string} memoryContent - 记忆内容
-   * @param {string} amount - 支付金额（ETH）
+   * 发送花束（调用合约 offer）
+   * @param {number} flowers - 花束数量（前端计算好的整数）
+   * @param {string|number} amount - 支付金额（DEV）
    */
-  const leaveMemory = async (memoryContent, amount) => {
+  const leaveMemory = async (flowers, amount) => {
     if (!contract) {
       throw new Error('合约未初始化')
     }
@@ -58,7 +58,8 @@ export const useContract = (provider, account) => {
     setError(null)
 
     try {
-      const tx = await contract.leaveMemory(memoryContent, {
+      // offer(flowers) 并携带 value
+      const tx = await contract.offer(flowers, {
         value: parseEther(amount.toString())
       })
 
@@ -80,24 +81,6 @@ export const useContract = (provider, account) => {
    * 获取用户的花束数量
    * @param {string} userAddress - 用户地址
    */
-  const getFlowerCount = async (userAddress) => {
-    if (!contract) {
-      throw new Error('合约未初始化')
-    }
-
-    try {
-      const count = await contract.getFlowerCount(userAddress)
-      return count.toString()
-    } catch (err) {
-      console.error('获取花束数量失败:', err)
-      throw err
-    }
-  }
-
-  /**
-   * 获取用户的记忆列表
-   * @param {string} userAddress - 用户地址
-   */
   const getMemories = async (userAddress) => {
     if (!contract) {
       throw new Error('合约未初始化')
@@ -117,7 +100,6 @@ export const useContract = (provider, account) => {
     isLoading,
     error,
     leaveMemory,
-    getFlowerCount,
     getMemories
   }
 }

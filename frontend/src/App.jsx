@@ -21,7 +21,6 @@ function App() {
     contract,
     isLoading: isContractLoading,
     leaveMemory,
-    getFlowerCount,
     getMemories
   } = useContract(provider, account)
 
@@ -33,7 +32,7 @@ function App() {
   const [showTribute, setShowTribute] = useState(false)
   const [stars, setStars] = useState([])
   const [memoryContent, setMemoryContent] = useState('')
-  const [onChainFlowerCount, setOnChainFlowerCount] = useState(0)
+  const [totalFlowersOffered, setTotalFlowersOffered] = useState(0)
 
   // 生成星星（改成光点）
   useEffect(() => {
@@ -59,18 +58,6 @@ function App() {
   useEffect(() => {
     setFlowerCount(calculateFlowers(monAmount))
   }, [monAmount])
-
-  // 从链上加载花朵数量
-  useEffect(() => {
-    if (contract && account) {
-      getFlowerCount(account)
-        .then((count) => {
-          setOnChainFlowerCount(Number(count))
-          console.log('链上花朵数量:', count)
-        })
-        .catch(console.error)
-    }
-  }, [contract, account, getFlowerCount])
 
   // 献花功能
   const offerFlowers = async () => {
@@ -100,8 +87,9 @@ function App() {
       console.log('钱包地址:', account)
       console.log('投入金额:', monAmount, 'MON')
       console.log('记忆内容:', content)
+      console.log('花束数量（传给合约 offer）:', flowerCount)
 
-      const receipt = await leaveMemory(content, monAmount)
+      const receipt = await leaveMemory(flowerCount, monAmount)
 
       console.log('交易成功！交易哈希:', receipt.hash)
 
@@ -126,14 +114,9 @@ function App() {
         setTimeout(() => setShowTribute(false), 3000)
       }, 2800)
 
-      // 更新链上花朵数量
-      setTimeout(async () => {
-        try {
-          const count = await getFlowerCount(account)
-          setOnChainFlowerCount(Number(count))
-        } catch (err) {
-          console.error('更新花朵数量失败:', err)
-        }
+      // 更新本地累计花朵数量（前端计算）
+      setTimeout(() => {
+        setTotalFlowersOffered((prev) => prev + flowerCount)
       }, 3000)
 
       // 恢复按钮
@@ -357,7 +340,7 @@ function App() {
             <div className="flower-icon">🌸</div>
             <div className="flower-display-text">可献</div>
             <div className="flower-count">{flowerCount}</div>
-            <div className="flower-display-text">朵 | 总计: {onChainFlowerCount}</div>
+            <div className="flower-display-text">朵 | 累计: {totalFlowersOffered}</div>
           </div>
 
           <button

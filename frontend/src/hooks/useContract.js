@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Contract } from 'ethers'
+import { Contract, parseEther } from 'ethers'
 
 /**
  * 智能合约交互 Hook
@@ -10,8 +10,8 @@ import { Contract } from 'ethers'
  * 3. 取消下面的注释并导入配置文件
  */
 
-// import contractABI from '../contracts/abi.json'
-// import { CONTRACT_CONFIG } from '../contracts/config'
+import contractABI from '../contracts/abi.json'
+import { CONTRACT_CONFIG } from '../contracts/config'
 
 export const useContract = (provider, account) => {
   const [contract, setContract] = useState(null)
@@ -25,23 +25,23 @@ export const useContract = (provider, account) => {
       return
     }
 
-    try {
-      // TODO: 等有了 ABI 和合约地址后，取消下面的注释
-      /*
-      const signer = await provider.getSigner()
-      const contractInstance = new Contract(
-        CONTRACT_CONFIG.address,
-        contractABI,
-        signer
-      )
-      setContract(contractInstance)
-      */
-
-      console.log('合约初始化准备就绪，等待 ABI 和合约地址')
-    } catch (err) {
-      console.error('合约初始化失败:', err)
-      setError(err.message)
+    const initContract = async () => {
+      try {
+        const signer = await provider.getSigner()
+        const contractInstance = new Contract(
+          CONTRACT_CONFIG.address,
+          contractABI,
+          signer
+        )
+        setContract(contractInstance)
+        console.log('合约初始化成功，地址:', CONTRACT_CONFIG.address)
+      } catch (err) {
+        console.error('合约初始化失败:', err)
+        setError(err.message)
+      }
     }
+
+    initContract()
   }, [provider, account])
 
   /**
@@ -58,10 +58,8 @@ export const useContract = (provider, account) => {
     setError(null)
 
     try {
-      // TODO: 等有了合约后，取消下面的注释
-      /*
       const tx = await contract.leaveMemory(memoryContent, {
-        value: ethers.parseEther(amount.toString())
+        value: parseEther(amount.toString())
       })
 
       // 等待交易确认
@@ -69,14 +67,6 @@ export const useContract = (provider, account) => {
 
       console.log('交易成功:', receipt.hash)
       return receipt
-      */
-
-      // 临时模拟
-      console.log('模拟调用 leaveMemory:')
-      console.log('  记忆内容:', memoryContent)
-      console.log('  支付金额:', amount, 'MON')
-
-      return { hash: '0x模拟交易哈希' }
     } catch (err) {
       console.error('交易失败:', err)
       setError(err.message)
@@ -96,14 +86,8 @@ export const useContract = (provider, account) => {
     }
 
     try {
-      // TODO: 等有了合约后，取消下面的注释
-      /*
       const count = await contract.getFlowerCount(userAddress)
       return count.toString()
-      */
-
-      // 临时返回 0
-      return '0'
     } catch (err) {
       console.error('获取花束数量失败:', err)
       throw err
@@ -120,14 +104,8 @@ export const useContract = (provider, account) => {
     }
 
     try {
-      // TODO: 等有了合约后，取消下面的注释
-      /*
       const memories = await contract.getMemories(userAddress)
       return memories
-      */
-
-      // 临时返回空数组
-      return []
     } catch (err) {
       console.error('获取记忆列表失败:', err)
       throw err

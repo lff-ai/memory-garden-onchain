@@ -2,17 +2,28 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import config from './config'
 import { useWallet } from './hooks/useWallet'
+import { useContract } from './hooks/useContract'
 
 function App() {
   // 钱包状态
   const {
     account,
+    provider,
     isConnecting,
     isConnected,
     connectWallet,
     disconnectWallet,
     formatAddress
   } = useWallet()
+
+  // 合约状态
+  const {
+    contract,
+    isLoading: isContractLoading,
+    leaveMemory,
+    getFlowerCount,
+    getMemories
+  } = useContract(provider, account)
 
   const [monAmount, setMonAmount] = useState(config.mon.defaultAmount)
   const [flowerCount, setFlowerCount] = useState(10)
@@ -21,6 +32,8 @@ function App() {
   const [isOffering, setIsOffering] = useState(false)
   const [showTribute, setShowTribute] = useState(false)
   const [stars, setStars] = useState([])
+  const [memoryContent, setMemoryContent] = useState('')
+  const [onChainFlowerCount, setOnChainFlowerCount] = useState(0)
 
   // 生成星星（改成光点）
   useEffect(() => {
@@ -47,8 +60,20 @@ function App() {
     setFlowerCount(calculateFlowers(monAmount))
   }, [monAmount])
 
+  // 从链上加载花朵数量
+  useEffect(() => {
+    if (contract && account) {
+      getFlowerCount(account)
+        .then((count) => {
+          setOnChainFlowerCount(Number(count))
+          console.log('链上花朵数量:', count)
+        })
+        .catch(console.error)
+    }
+  }, [contract, account, getFlowerCount])
+
   // 献花功能
-  const offerFlowers = () => {
+  const offerFlowers = async () => {
     if (!isConnected) {
       alert('请先连接钱包')
       return
@@ -59,40 +84,69 @@ function App() {
       return
     }
 
-    // TODO: 这里将来会调用智能合约
-    // 示例: await contract.leaveMemory(memoryContent, { value: ethers.parseEther(monAmount.toString()) })
-    console.log('钱包地址:', account)
-    console.log('将要投入的 MON 币:', monAmount)
-    console.log('对应的花朵数量:', flowerCount)
+    if (!contract) {
+      alert('合约未初始化，请检查网络连接')
+      return
+    }
+
+    // 使用默认记忆内容（如果用户未输入）
+    const content = memoryContent.trim() || '一段美好的青春记忆'
 
     setIsOffering(true)
 
-    // 创建飘浮的花朵
-    const flowersToProduce = Math.min(flowerCount, 30)
-    const interval = 2000 / flowersToProduce
+    try {
+      // 调用智能合约
+      console.log('正在调用合约...')
+      console.log('钱包地址:', account)
+      console.log('投入金额:', monAmount, 'MON')
+      console.log('记忆内容:', content)
 
-    for (let i = 0; i < flowersToProduce; i++) {
+      const receipt = await leaveMemory(content, monAmount)
+
+      console.log('交易成功！交易哈希:', receipt.hash)
+
+      // 创建飘浮的花朵
+      const flowersToProduce = Math.min(flowerCount, 30)
+      const interval = 2000 / flowersToProduce
+
+      for (let i = 0; i < flowersToProduce; i++) {
+        setTimeout(() => {
+          createFloatingFlower()
+        }, i * interval)
+      }
+
+      // 添加静态花朵
       setTimeout(() => {
-        createFloatingFlower()
-      }, i * interval)
-    }
+        addStaticFlowers(flowerCount)
+      }, 2500)
 
-    // 添加静态花朵
-    setTimeout(() => {
-      addStaticFlowers(flowerCount)
-    }, 2500)
+      // 显示感谢消息
+      setTimeout(() => {
+        setShowTribute(true)
+        setTimeout(() => setShowTribute(false), 3000)
+      }, 2800)
 
-    // 显示感谢消息
-    setTimeout(() => {
-      setShowTribute(true)
-      setTimeout(() => setShowTribute(false), 3000)
-    }, 2800)
+      // 更新链上花朵数量
+      setTimeout(async () => {
+        try {
+          const count = await getFlowerCount(account)
+          setOnChainFlowerCount(Number(count))
+        } catch (err) {
+          console.error('更新花朵数量失败:', err)
+        }
+      }, 3000)
 
-    // 恢复按钮
-    setTimeout(() => {
+      // 恢复按钮
+      setTimeout(() => {
+        setIsOffering(false)
+        setMonAmount(config.mon.defaultAmount)
+        setMemoryContent('')
+      }, 6000)
+    } catch (err) {
+      console.error('交易失败:', err)
+      alert(`交易失败: ${err.message}`)
       setIsOffering(false)
-      setMonAmount(config.mon.defaultAmount)
-    }, 6000)
+    }
   }
 
   // 创建飘浮花朵
@@ -264,6 +318,19 @@ function App() {
           </div>
 
           <div className="input-group">
+            <label htmlFor="memoryContent">记忆内容</label>
+            <input
+              type="text"
+              id="memoryContent"
+              placeholder="留下一段青春的记忆..."
+              value={memoryContent}
+              onChange={(e) => setMemoryContent(e.target.value)}
+              disabled={!isConnected}
+              style={{ width: '200px' }}
+            />
+          </div>
+
+          <div className="input-group">
             <label htmlFor="monAmount">投入 MON 币数量（最多 {config.mon.maxAmount} MON）</label>
             <input
               type="number"
@@ -290,7 +357,7 @@ function App() {
             <div className="flower-icon">🌸</div>
             <div className="flower-display-text">可献</div>
             <div className="flower-count">{flowerCount}</div>
-            <div className="flower-display-text">朵</div>
+            <div className="flower-display-text">朵 | 总计: {onChainFlowerCount}</div>
           </div>
 
           <button

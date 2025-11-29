@@ -3,6 +3,7 @@ import './App.css'
 import config from './config'
 import { useWallet } from './hooks/useWallet'
 import { useContract } from './hooks/useContract'
+import { getRandomMemory } from './constants/memories'
 
 function App() {
   // 钱包状态
@@ -31,7 +32,7 @@ function App() {
   const [isOffering, setIsOffering] = useState(false)
   const [showTribute, setShowTribute] = useState(false)
   const [stars, setStars] = useState([])
-  const [memoryContent, setMemoryContent] = useState('')
+  const [memoryContent, setMemoryContent] = useState(() => getRandomMemory())
   const [totalFlowersOffered, setTotalFlowersOffered] = useState(0)
 
   // 生成星星（改成光点）
@@ -123,7 +124,7 @@ function App() {
       setTimeout(() => {
         setIsOffering(false)
         setMonAmount(config.mon.defaultAmount)
-        setMemoryContent('')
+        setMemoryContent(getRandomMemory())
       }, 6000)
     } catch (err) {
       console.error('交易失败:', err)
@@ -307,8 +308,7 @@ function App() {
               id="memoryContent"
               placeholder="留下一段青春的记忆..."
               value={memoryContent}
-              onChange={(e) => setMemoryContent(e.target.value)}
-              disabled={!isConnected}
+              readOnly
               style={{ width: '200px' }}
             />
           </div>

@@ -604,6 +604,81 @@ h1 {
   gap: 15px;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 钱包连接区域 */
+.wallet-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.wallet-button {
+  padding: 10px 24px;
+  font-size: 0.95em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 3px 12px rgba(76, 175, 80, 0.4);
+  white-space: nowrap;
+}
+
+.wallet-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(76, 175, 80, 0.6);
+  background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+}
+
+.wallet-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg,
+    rgba(76, 175, 80, 0.15) 0%,
+    rgba(76, 175, 80, 0.25) 100%
+  );
+  border: 2px solid rgba(76, 175, 80, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
+.wallet-address {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #2e7d32;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+.wallet-disconnect {
+  padding: 6px 14px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wallet-disconnect:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #d32f2f;
+  border-color: rgba(211, 47, 47, 0.3);
 }
 
 .input-group {
@@ -824,6 +899,20 @@ footer {
   .control-content {
     flex-direction: column;
     gap: 10px;
+  }
+
+  .wallet-section {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .wallet-button {
+    width: 100%;
+  }
+
+  .wallet-info {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .input-group {

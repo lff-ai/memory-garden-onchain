@@ -1,8 +1,19 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import config from './config'
+import { useWallet } from './hooks/useWallet'
 
 function App() {
+  // 钱包状态
+  const {
+    account,
+    isConnecting,
+    isConnected,
+    connectWallet,
+    disconnectWallet,
+    formatAddress
+  } = useWallet()
+
   const [monAmount, setMonAmount] = useState(config.mon.defaultAmount)
   const [flowerCount, setFlowerCount] = useState(10)
   const [staticFlowers, setStaticFlowers] = useState([])
@@ -38,10 +49,21 @@ function App() {
 
   // 献花功能
   const offerFlowers = () => {
+    if (!isConnected) {
+      alert('请先连接钱包')
+      return
+    }
+
     if (flowerCount <= 0) {
       alert('请输入有效的 MON 币数量')
       return
     }
+
+    // TODO: 这里将来会调用智能合约
+    // 示例: await contract.leaveMemory(memoryContent, { value: ethers.parseEther(monAmount.toString()) })
+    console.log('钱包地址:', account)
+    console.log('将要投入的 MON 币:', monAmount)
+    console.log('对应的花朵数量:', flowerCount)
 
     setIsOffering(true)
 
@@ -221,6 +243,26 @@ function App() {
       {/* 控制面板 */}
       <div className="control-panel">
         <div className="control-content">
+          {/* 钱包连接按钮 */}
+          <div className="wallet-section">
+            {!isConnected ? (
+              <button
+                className="wallet-button"
+                onClick={connectWallet}
+                disabled={isConnecting}
+              >
+                {isConnecting ? '连接中...' : '🔗 连接钱包'}
+              </button>
+            ) : (
+              <div className="wallet-info">
+                <div className="wallet-address">{formatAddress(account)}</div>
+                <button className="wallet-disconnect" onClick={disconnectWallet}>
+                  断开
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className="input-group">
             <label htmlFor="monAmount">投入 MON 币数量（最多 {config.mon.maxAmount} MON）</label>
             <input
@@ -240,6 +282,7 @@ function App() {
                   setMonAmount(value)
                 }
               }}
+              disabled={!isConnected}
             />
           </div>
 
@@ -253,9 +296,9 @@ function App() {
           <button
             className="offer-button"
             onClick={offerFlowers}
-            disabled={isOffering}
+            disabled={isOffering || !isConnected}
           >
-            {isOffering ? '记录中...' : '留下记忆'}
+            {isOffering ? '记录中...' : isConnected ? '留下记忆' : '请先连接钱包'}
           </button>
         </div>
       </div>

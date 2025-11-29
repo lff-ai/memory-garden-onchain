@@ -108,7 +108,6 @@ h1 {
   z-index: 1;
   padding: 20px 0 0;
   min-height: 0;
-  overflow: hidden;
 }
 
 .tree-wrapper {
@@ -439,7 +438,7 @@ h1 {
 /* 许愿树文字 */
 .tree-text {
   position: absolute;
-  top: 50%;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 24px;
@@ -890,6 +889,7 @@ footer {
   .tree-text {
     font-size: 16px;
     letter-spacing: 4px;
+    top: 72%;
   }
 
   .flowers-area {
